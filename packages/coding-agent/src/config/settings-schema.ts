@@ -162,8 +162,7 @@ export type StatusLineSegmentId =
 	| "cache_hit"
 	| "session_name"
 	| "usage"
-	| "collab"
-	| "provider";
+	| "collab";
 
 /** Submenu choice metadata. */
 export type SubmenuOption<V extends string = string> = {
