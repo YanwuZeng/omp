@@ -106,6 +106,8 @@ export interface PlanReviewOverlayOptions {
 	slider?: HookSelectorSlider;
 	/** Display label for the external-editor key, surfaced in the footer help. */
 	externalEditorLabel?: string;
+	/** Terminal height in rows; when unset falls back to `process.stdout.rows`. */
+	terminalHeight?: number;
 }
 
 /** Default trailing footer hint when the caller supplies none. */
@@ -131,6 +133,7 @@ export class PlanReviewOverlay implements Component {
 	#selectedIndex: number;
 	#slider: HookSelectorSlider | undefined;
 	#sliderIndex: number;
+	#terminalHeight: number;
 
 	#focus: Focus = "actions";
 	#tocCursor = 0;
@@ -177,6 +180,7 @@ export class PlanReviewOverlay implements Component {
 		} else {
 			this.#sliderIndex = 0;
 		}
+		this.#terminalHeight = options.terminalHeight ?? process.stdout.rows ?? 40;
 		this.#input = new Input();
 		this.#input.setUseTerminalCursor(false);
 		this.#input.onSubmit = value => this.#submitAnnotation(value);
@@ -782,7 +786,7 @@ export class PlanReviewOverlay implements Component {
 	}
 
 	render(width: number): readonly string[] {
-		const termHeight = process.stdout.rows || 40;
+		const termHeight = this.#terminalHeight;
 		const sidebarShown = this.#sidebarVisible(width);
 		this.#sidebarShown = sidebarShown;
 		const sidebarWidth = sidebarShown ? this.#sidebarWidthFor(width) : 0;

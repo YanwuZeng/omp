@@ -2125,6 +2125,7 @@ export class InteractiveMode implements InteractiveModeContext {
 				initialIndex: dialogOptions?.initialIndex,
 				slider: extra?.slider,
 				externalEditorLabel: this.keybindings.getDisplayString("app.editor.external") || undefined,
+				terminalHeight: this.ui.terminal.rows,
 			},
 			{
 				onPick: choice => finish(choice),
