@@ -522,6 +522,19 @@ const collabSegment: StatusLineSegment = {
 	},
 };
 
+const providerSegment: StatusLineSegment = {
+	id: "provider",
+	render(ctx) {
+		const providerId = ctx.session.state.model?.provider;
+		if (!providerId) return { content: "", visible: false };
+		const display = providerId
+			.split(/[-_]/g)
+			.map(part => (part ? part[0].toUpperCase() + part.slice(1) : ""))
+			.join(" ");
+		return { content: theme.fg("muted", display), visible: true };
+	},
+};
+
 function pickUsageColor(percent: number): "muted" | "warning" | "error" {
 	if (percent >= 80) return "error";
 	if (percent >= 50) return "warning";
@@ -603,6 +616,7 @@ export const SEGMENTS: Record<StatusLineSegmentId, StatusLineSegment> = {
 	session_name: sessionNameSegment,
 	usage: usageSegment,
 	collab: collabSegment,
+	provider: providerSegment,
 };
 
 export function renderSegment(id: StatusLineSegmentId, ctx: SegmentContext): RenderedSegment {
